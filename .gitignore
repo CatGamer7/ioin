@@ -156,6 +156,7 @@ activemq-data/
 */ENV/
 */env.bak/
 */venv.bak/
+*/.bot-venv
 
 # Spyder project settings
 .spyderproject
@@ -217,3 +218,6 @@ __marimo__/
 
 # Migrations
 backend/*/migrations/
+
+# Secrets
+.env

@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  threat_db:
+  threat-db:
     image: postgres:17
     environment:
       POSTGRES_DB: threat
@@ -12,13 +12,17 @@ services:
     ports:
       - "5432:5432"
 
-  threat_backend:
+  threat-backend:
     build: ./backend
-    command: sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 backend.wsgi:application"
     ports:
       - "8000:8000"
     depends_on:
-      - threat_db
+      - threat-db
+
+  threat-bot:
+    build: ./bot
+    depends_on:
+      - threat-backend
 
 volumes:
   postgres_threat_data:
