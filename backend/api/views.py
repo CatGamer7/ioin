@@ -1,13 +1,15 @@
 from django.conf import settings
 import numpy as np
 import onnxruntime as ort
+from rest_framework.exceptions import NotFound
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from transformers import AutoTokenizer
 
 from inference.models import Message
-from .serializers import MessageSerializer
+from .serializers import MessageSerializer, MessageStatsSerializer
 
 
 sess = ort.InferenceSession(
@@ -16,6 +18,20 @@ sess = ort.InferenceSession(
 tokenizer = AutoTokenizer.from_pretrained(
     settings.BASE_DIR / "api/file/naive_bert_tokenizer"
 )
+
+
+class MessageStatsView(RetrieveAPIView):
+    serializer_class = MessageStatsSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        chat_id = int(kwargs['chat_id'])
+
+        if not Message.objects.filter(chat_id=chat_id).exists():
+            raise NotFound(detail="No messages found for the given chat_id")
+
+        serializer = self.get_serializer(chat_id)
+
+        return Response(serializer.data)
 
 
 class ClassifyText(APIView):
