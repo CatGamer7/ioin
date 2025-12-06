@@ -221,6 +221,7 @@ backend/*/migrations/
 
 # Secrets
 .env
+**/*.end
 
 # Dependencies
 /node_modules
@@ -257,3 +258,4 @@ lambda
 *.njsproj
 *.sln
 *.sw?
+backend/backend/.env

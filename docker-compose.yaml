@@ -3,10 +3,8 @@ version: '3.8'
 services:
   threat-db:
     image: postgres:17
-    environment:
-      POSTGRES_DB: threat
-      POSTGRES_USER: cat_user
-      POSTGRES_PASSWORD: catgoescatsitscatstays
+    env_file:
+      - ./backend/backend/.env
     volumes:
       - postgres_threat_data:/var/lib/postgresql/data
     ports:
