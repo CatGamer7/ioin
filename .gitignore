@@ -258,4 +258,3 @@ lambda
 *.njsproj
 *.sln
 *.sw?
-backend/backend/.env
